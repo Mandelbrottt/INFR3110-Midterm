@@ -18,12 +18,15 @@
     <ClInclude Include="include\IUnityInterface.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\CheckpointTimeLogger.h">
+    <ClInclude Include="src\Checkpoint\CheckpointTimeLogger.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Checkpoint\Checkpoint.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\CheckpointTimeLogger.cpp">
+    <ClCompile Include="src\Checkpoint\CheckpointTimeLogger.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

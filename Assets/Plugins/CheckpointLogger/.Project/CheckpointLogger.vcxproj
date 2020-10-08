@@ -20,10 +20,11 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\IUnityInterface.h" />
-    <ClInclude Include="src\CheckpointTimeLogger.h" />
+    <ClInclude Include="src\Checkpoint\Checkpoint.h" />
+    <ClInclude Include="src\Checkpoint\CheckpointTimeLogger.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\CheckpointTimeLogger.cpp" />
+    <ClCompile Include="src\Checkpoint\CheckpointTimeLogger.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
@@ -134,16 +135,17 @@
       <AdditionalIncludeDirectories>$(SolutionDir)include\</AdditionalIncludeDirectories>
       <UndefinePreprocessorDefinitions>
       </UndefinePreprocessorDefinitions>
+      <CallingConvention>StdCall</CallingConvention>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
     <PostBuildEvent>
-      <Command>del /f $(TargetDir)$(TargetName).iobj
-del /f $(TargetDir)$(TargetName).ipdb
-del /f $(TargetDir)$(TargetName).exp
-del /f $(TargetDir)$(TargetName).lib</Command>
+      <Command>del /f $(TargetDir)$(TargetName).exp
+del /f $(TargetDir)$(TargetName).lib
+del /f $(TargetDir)$(TargetName).iobj
+del /f $(TargetDir)$(TargetName).ipdb</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -167,7 +169,9 @@ del /f $(TargetDir)$(TargetName).lib</Command>
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
     <PostBuildEvent>
-      <Command>del /f $(TargetDir)$(TargetName).iobj
+      <Command>del /f $(TargetDir)$(TargetName).exp
+del /f $(TargetDir)$(TargetName).lib
+del /f $(TargetDir)$(TargetName).iobj
 del /f $(TargetDir)$(TargetName).ipdb</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
