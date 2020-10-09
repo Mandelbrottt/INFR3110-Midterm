@@ -2,8 +2,10 @@
 
 #include <vector>
 #include <memory>
+#include <string>
 
-static std::shared_ptr<Checkpoint[]> g_checkpoints;
+static std::shared_ptr<Checkpoint[]>   g_checkpoints;
+static std::shared_ptr<std::wstring[]> g_checkpointNames;
 
 static int g_currentIndex   = 0;
 static int g_numCheckpoints = 0;
@@ -20,7 +22,15 @@ CheckpointLogger_SetCheckpoints(
 	
 	g_checkpoints = std::shared_ptr<Checkpoint[]>(new Checkpoint[a_length]);
 
-	memcpy(g_checkpoints.get(), a_checkpoints, a_length * sizeof(Checkpoint));
+	g_checkpointNames = std::shared_ptr<std::wstring[]>(new std::wstring[a_length]);
+
+	for (int i = 0; i < a_length; i++) {
+		g_checkpoints[i].timeStamp = a_checkpoints[i].timeStamp;
+
+		g_checkpointNames[i] = a_checkpoints[i].name;
+
+		g_checkpoints[i].name = g_checkpointNames[i].c_str();
+	}
 
 	g_numCheckpoints = a_length;
 	
@@ -44,13 +54,13 @@ CheckpointLogger_EndRun() {
 
 void UNITY_INTERFACE_API
 CheckpointLogger_SaveCheckpointTime(
-	int   a_index,
 	float a_checkpointTime
 ) {
-	if (a_index < 0 || a_index >= g_numCheckpoints)
+	if (g_currentIndex < 0 || g_currentIndex >= g_numCheckpoints)
 		return;
 
-	g_checkpoints[a_index].timeStamp = a_checkpointTime;
+	g_checkpoints[g_currentIndex].timeStamp = a_checkpointTime;
+	g_currentIndex++;
 	g_totalRunningTime += a_checkpointTime;
 }
 

@@ -1,13 +1,13 @@
 ﻿using UnityEngine;
 
 public class CharacterController : MonoBehaviour {
-	private Rigidbody m_body;
+	private Rigidbody m_body = null;
 
 	[SerializeField]
-	private Transform groundTester;
+	private Transform groundTester = null;
 
 	[SerializeField]
-	private GameObject cameraPitchTarget;
+	private GameObject cameraPitchTarget = null;
 
 	[SerializeField]
 	private float groundDistance = 0.1f;
@@ -40,7 +40,7 @@ public class CharacterController : MonoBehaviour {
 	private void Start() {
 		m_body = GetComponent<Rigidbody>();
 		
-		groundLayer = LayerMask.NameToLayer("Ground");
+		//groundLayer = LayerMask.NameToLayer("Ground");
 	}
 
 	private void FixedUpdate() {

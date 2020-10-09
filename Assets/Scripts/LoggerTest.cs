@@ -16,19 +16,16 @@ namespace INFR3110 {
 
 		private void Update() {
 			if (Input.GetKeyDown(KeyCode.C)) {
-				var checkpoints = new Checkpoint[] {
-					new Checkpoint() {
-						index = 0,
+				var checkpoints = new CheckpointStruct[] {
+					new CheckpointStruct() {
 						name = "Sent from C++",
 						timeStamp = 0.4f,
 					},
-					new Checkpoint() {
-						index = 1,
+					new CheckpointStruct() {
 						name = "Something Else",
 						timeStamp = 1.3f,
 					},
-					new Checkpoint() {
-						index = 7,
+					new CheckpointStruct() {
 						name = "Different",
 						timeStamp = 2.5f,
 					},
@@ -41,7 +38,7 @@ namespace INFR3110 {
 					// Get the checkpoint back from DLL
 					var cp = m_logger.GetCheckpoint(i);
 					
-					Debug.Log($"index: {cp.index}, timestamp: {cp.timeStamp}, name: {cp.name}");
+					//Debug.Log($"index: {cp.index}, timestamp: {cp.timeStamp}, name: {cp.name}");
 				}
 			}
 			

@@ -4,16 +4,16 @@ using UnityEngine.UI;
 
 public class PauseMenuController : MonoBehaviour {
 	[SerializeField]
-	private GameObject pauseMenu;
+	private GameObject pauseMenu = null;
 
 	[SerializeField]
-	private Button resumeButton;
+	private Button resumeButton = null;
 
 	[SerializeField]
-	private Button restartButton;
+	private Button restartButton = null;
 
 	[SerializeField]
-	private Button menuButton;
+	private Button menuButton = null;
 
 	private void Start() {
 		resumeButton.onClick.AddListener(OnResumeButtonPressed);

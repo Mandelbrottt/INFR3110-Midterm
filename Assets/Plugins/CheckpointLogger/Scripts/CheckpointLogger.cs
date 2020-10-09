@@ -6,15 +6,12 @@ using UnityEngine;
 namespace INFR3110 {
 
 	[StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
-	public struct Checkpoint {
-		public int    index;
+	public struct CheckpointStruct {
 		public float  timeStamp;
 		public string name;
 	}
 	
-	public class CheckpointLogger : MonoBehaviour {
-
-		public static CheckpointLogger Instance { get; private set; }
+	public class CheckpointLogger : MonoBehaviourSingleton<CheckpointLogger> {
 
 		// Set in the inspector, drag the dll into the Library Object 
 		public UnityEngine.Object libraryObject;
@@ -28,7 +25,7 @@ namespace INFR3110 {
 		private const string GET_NUM_CHECKPOINTS_SYMBOL  = "CheckpointLogger_GetNumCheckpoints";
 
 		[UnmanagedFunctionPointer(CallingConvention.StdCall)]
-		public delegate void SetCheckpointsDelegate(Checkpoint[] a_checkpoints, int a_length);
+		public delegate void SetCheckpointsDelegate(CheckpointStruct[] a_checkpoints, int a_length);
 
 		[UnmanagedFunctionPointer(CallingConvention.StdCall)]
 		public delegate void StartRunDelegate();
@@ -37,13 +34,13 @@ namespace INFR3110 {
 		public delegate void EndRunDelegate();
 
 		[UnmanagedFunctionPointer(CallingConvention.StdCall)]
-		public delegate void SaveCheckpointTimeDelegate(int a_index, float a_checkpointTime);
+		public delegate void SaveCheckpointTimeDelegate(float a_checkpointTime);
 
 		[UnmanagedFunctionPointer(CallingConvention.StdCall)]
 		public delegate float GetTotalTimeDelegate();
 
 		[UnmanagedFunctionPointer(CallingConvention.StdCall)]
-		public delegate Checkpoint GetCheckpointDelegate(int a_index);
+		public delegate CheckpointStruct GetCheckpointDelegate(int a_index);
 
 		[UnmanagedFunctionPointer(CallingConvention.StdCall)]
 		public delegate int GetNumCheckpointsDelegate();
@@ -61,9 +58,6 @@ namespace INFR3110 {
 		private DynamicLibrary m_dynamicLibrary;
 
 		private void Awake() {
-			Debug.Assert(Instance == null, "There should only be one CheckpointLogger!");
-			Instance = this;
-
 			// Dynamically load the DLL
 			var path = DynamicLibrary.PathFromLibraryObject(libraryObject);
 			m_dynamicLibrary = new DynamicLibrary(path);
@@ -79,8 +73,6 @@ namespace INFR3110 {
 
 		private void OnDestroy() {
 			m_dynamicLibrary?.Dispose();
-
-			Instance = null;
 		}
 	}
 }

@@ -22,7 +22,6 @@ extern "C" {
 
 	extern void UNITY_INTERFACE_EXPORT UNITY_INTERFACE_API
 	CheckpointLogger_SaveCheckpointTime(
-		int   a_index,
 		float a_checkpointTime
 	);
 
