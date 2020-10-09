@@ -21,6 +21,13 @@ public class PauseMenuController : MonoBehaviour {
 		restartButton.onClick.AddListener(OnRestartButtonPressed);
 		
 		menuButton.onClick.AddListener(OnMenuButtonPressed);
+
+		Cursor.lockState = CursorLockMode.Locked;
+		Cursor.visible   = false;
+	}
+
+	private void OnDestroy() {
+		Time.timeScale = 1.0f;
 	}
 
 	private void Update() {
@@ -38,12 +45,18 @@ public class PauseMenuController : MonoBehaviour {
 	}
 
 	public void OnMenuButtonPressed() {
+		Cursor.lockState = CursorLockMode.None;
+		Cursor.visible   = true;
+
 		SceneManager.LoadScene("StartScene");
 	}
 
 	private void SetPauseState(bool a_state) {
 		pauseMenu.SetActive(a_state);
 
-		Time.timeScale = a_state ? 0 : 1;
+		Time.timeScale = a_state ? 0f : 1f;
+
+		Cursor.lockState = a_state ? CursorLockMode.None : CursorLockMode.Locked;
+		Cursor.visible = !a_state;
 	}
 }
