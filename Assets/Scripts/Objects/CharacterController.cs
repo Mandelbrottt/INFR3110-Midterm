@@ -12,8 +12,7 @@ public class CharacterController : MonoBehaviour {
 	[SerializeField]
 	private float groundDistance = 0.1f;
 
-	[SerializeField]
-	private LayerMask groundLayer = 0;
+	private LayerMask m_groundLayer = 0;
 
 	[SerializeField]
 	private float moveSpeed = 10;
@@ -39,8 +38,9 @@ public class CharacterController : MonoBehaviour {
 
 	private void Start() {
 		m_body = GetComponent<Rigidbody>();
-		
-		//groundLayer = LayerMask.NameToLayer("Ground");
+
+		m_groundLayer |= 1 << LayerMask.NameToLayer("Ground");
+		m_groundLayer |= 1 << LayerMask.NameToLayer("Wall");
 	}
 
 	private void FixedUpdate() {
@@ -65,7 +65,7 @@ public class CharacterController : MonoBehaviour {
 		m_body.AddForce(force, ForceMode.Force);
 
 		m_grounded = Physics.CheckSphere(
-			groundTester.position, groundDistance, groundLayer, QueryTriggerInteraction.Ignore
+			groundTester.position, groundDistance, m_groundLayer, QueryTriggerInteraction.Ignore
 		);
 		var jumpAmt = m_grounded && jump ? jumpForce : 0;
 

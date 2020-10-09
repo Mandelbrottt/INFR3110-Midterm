@@ -9,31 +9,42 @@ public class CheckpointManager : MonoBehaviourSingleton<CheckpointManager> {
 	private GameObject checkpointPrefab = null;
 
 	[SerializeField]
-	private List<Transform> checkpointPositions = new List<Transform>();
+	private List<GameObject> checkpointsInLevel = new List<GameObject>();
 
 	private float m_timeSinceLastCheckpoint;
 	private float m_elapsedTime;
+
+	[HideInInspector] 
+	public bool PassedLastCheckpoint { get; set; } = false;
 
 	private void Start() {
 
 		m_elapsedTime = 0f;
 		m_timeSinceLastCheckpoint = 0f;
 
-		var cps = new GameObject[checkpointPositions.Count];
+		var numValidCheckpoints = 0;
+
+		var cps = new GameObject[checkpointsInLevel.Count];
 		
-		for (int i = 0; i < checkpointPositions.Count; i++) {
-			var cp = Instantiate(checkpointPrefab);
-			
-			cp.transform.position   = checkpointPositions[i].position;
-			cp.transform.rotation   = checkpointPositions[i].rotation;
-			cp.transform.localScale = checkpointPositions[i].localScale;
+		for (int i = 0; i < checkpointsInLevel.Count; i++) {
+			var checkpointInLevel = checkpointsInLevel[i];
 
-			cp.gameObject.name = $"Checkpoint {i}";
+			if (checkpointInLevel != null) {
+				var cp = Instantiate(checkpointPrefab);
 
-			cps[i] = cp;
+				cp.transform.position   = checkpointInLevel.transform.position;
+				cp.transform.rotation   = checkpointInLevel.transform.rotation;
+				cp.transform.localScale = checkpointInLevel.transform.localScale;
+
+				cp.gameObject.name = checkpointInLevel.name;
+				
+				cps[numValidCheckpoints] = cp;
+
+				numValidCheckpoints++;
+			}
 		}
 		
-		var checkpoints = new CheckpointStruct[checkpointPositions.Count];
+		var checkpoints = new CheckpointStruct[numValidCheckpoints];
 
 		for (var i = 0; i < checkpoints.Length; i++) {
 			checkpoints[i].name = cps[i].name;
@@ -60,8 +71,14 @@ public class CheckpointManager : MonoBehaviourSingleton<CheckpointManager> {
 			
 			m_timeSinceLastCheckpoint = 0f;
 
+			SpawnManager.Instance.SetSpawn(a_checkpoint.transform);
+			
+			Debug.Log("Checkpoint hit!");
+
 			if (hitCheckpoints.Count == CheckpointLogger.Instance.GetNumCheckpoints()) {
 				CheckpointLogger.Instance.EndRun();
+
+				PassedLastCheckpoint = true;
 			}
 		}
 	}
