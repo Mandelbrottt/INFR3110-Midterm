@@ -4,13 +4,13 @@ using UnityEngine;
 
 namespace INFR3110 {
 	class DynamicLibrary : IDisposable {
-		[DllImport("kernel32", EntryPoint = "LoadLibrary")]
+		[DllImport("kernel32", EntryPoint = "LoadLibrary", SetLastError = true)]
 		private static extern IntPtr _LoadLibraryWin32(string a_path);
 
-		[DllImport("kernel32", EntryPoint = "GetProcAddress")]
+		[DllImport("kernel32", EntryPoint = "GetProcAddress", SetLastError = true)]
 		private static extern IntPtr _GetProcAddressWin32(IntPtr a_libHandle, string a_symbolName);
 
-		[DllImport("kernel32", EntryPoint = "FreeLibrary")]
+		[DllImport("kernel32", EntryPoint = "FreeLibrary", SetLastError = true)]
 		private static extern bool _FreeLibraryWin32(IntPtr a_libHandle);
 
 		private IntPtr m_libHandle = IntPtr.Zero;
