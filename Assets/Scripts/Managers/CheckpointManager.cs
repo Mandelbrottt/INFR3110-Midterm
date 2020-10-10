@@ -91,9 +91,13 @@ public class CheckpointManager : MonoBehaviourSingleton<CheckpointManager> {
 
 			SpawnManager.Instance.SetSpawn(a_checkpoint.transform);
 			
+			Debug.Log("Checkpoint Hit!");
 			if (!PassedLastCheckpoint 
 			    && hitCheckpoints.Count == CheckpointLogger.Instance.GetNumCheckpoints()) {
 				PassedLastCheckpoint = true;
+			
+				Debug.Log("Last Checkpoint Hit!");
+			
 
 				float totalTime      = CheckpointLogger.Instance.GetTotalTime();
 				float ghostTotalTime = CheckpointLogger.Instance.GhostGetTotalTime();

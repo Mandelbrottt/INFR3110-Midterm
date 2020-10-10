@@ -15,7 +15,7 @@ public class StatsMenuController : MonoBehaviourSingleton<StatsMenuController> {
 
 	private void Start() {
 		menuButton.onClick.AddListener(OnMenuButtonClicked);
-
+		
 		var path = $"{Application.persistentDataPath}/ghosts/ghost.ghost";
 		if (File.Exists(path)) {
 			CheckpointLogger.Instance.GhostLoadFromFile(path);
@@ -58,7 +58,7 @@ public class StatsMenuController : MonoBehaviourSingleton<StatsMenuController> {
 		}
 	}
 
-	private void OnMenuButtonClicked() {
+	public void OnMenuButtonClicked() {
 		SceneManager.LoadScene("StartScene");
 	}
 }

@@ -62,7 +62,8 @@ namespace INFR3110 {
 			UnityEditor.AssetDatabase.TryGetGUIDAndLocalFileIdentifier(a_object, out var guid, out long localId);
 			return UnityEditor.AssetDatabase.GUIDToAssetPath(guid);
 		#else
-			string path = $"{UnityEngine.Application.productName}_Data/Plugins/x86_64/{a_object.name}";
+			//string path = $"{UnityEngine.Application.productName}_Data/Plugins/x86_64/{a_object.name}";
+			string path = $"{UnityEngine.Application.productName}_Data/Plugins/x86_64/CheckpointLogger";
 			return path;
 		#endif
 		}

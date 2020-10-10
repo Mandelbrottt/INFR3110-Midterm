@@ -82,6 +82,7 @@ namespace INFR3110 {
 		private void Awake() {
 			// Dynamically load the DLL
 			var path = DynamicLibrary.PathFromLibraryObject(libraryObject);
+			
 			m_dynamicLibrary = new DynamicLibrary(path);
 
 			SetCheckpoints     = m_dynamicLibrary.GetDelegate<SetCheckpointsDelegate>    (SET_CHECKPOINTS_SYMBOL);

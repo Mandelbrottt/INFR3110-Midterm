@@ -43,6 +43,19 @@ public class CharacterController : MonoBehaviour {
 		m_groundLayer |= 1 << LayerMask.NameToLayer("Wall");
 	}
 
+	private void Update() {
+		var deltaYaw   = Input.GetAxisRaw("Mouse X") * mouseSens * Time.timeScale;
+		var deltaPitch = Input.GetAxisRaw("Mouse Y") * mouseSens * Time.timeScale;
+
+		m_yaw += deltaYaw;
+
+		m_pitch = Mathf.Clamp(m_pitch - deltaPitch, -85f, 85f);
+
+		transform.rotation = Quaternion.Euler(0, m_yaw, 0);
+
+		cameraPitchTarget.transform.localRotation = Quaternion.Euler(m_pitch, 0, 0);
+	}
+
 	private void FixedUpdate() {
 		var input = Vector3.zero;
 		input.x = Input.GetAxisRaw("Horizontal");
@@ -55,7 +68,7 @@ public class CharacterController : MonoBehaviour {
 
 		var jump = Input.GetAxisRaw("Jump") > 0;
 
-		var deltaVelocity = (desiredVelocity - velocity) / Time.deltaTime;
+		var deltaVelocity = (desiredVelocity - velocity) / Time.fixedDeltaTime;
 		deltaVelocity.y = 0;
 
 		var limit = Vector3.Dot(deltaVelocity, velocity) > 0f ? maxAccel : maxDecel;
@@ -72,15 +85,6 @@ public class CharacterController : MonoBehaviour {
 		m_body.AddForce(new Vector3(0, jumpAmt, 0), ForceMode.Impulse);
 		m_body.AddForce(Physics.gravity * (gravityScale - 1), ForceMode.Acceleration);
 
-		var deltaYaw   = Input.GetAxisRaw("Mouse X") * mouseSens;
-		var deltaPitch = Input.GetAxisRaw("Mouse Y") * mouseSens;
-
-		m_yaw += deltaYaw;
-
-		m_pitch = Mathf.Clamp(m_pitch - deltaPitch, -85f, 85f);
-
-		transform.rotation = Quaternion.Euler(0, m_yaw, 0);
-
-		cameraPitchTarget.transform.localRotation = Quaternion.Euler(m_pitch, 0, 0);
+		
 	}
 }
