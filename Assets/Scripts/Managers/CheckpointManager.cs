@@ -17,10 +17,15 @@ public class CheckpointManager : MonoBehaviourSingleton<CheckpointManager> {
 
 	[HideInInspector]
 	public float ElapsedTime { get; private set; }
+	
+	[HideInInspector]
+	public int CurrentCheckpoint => hitCheckpoints.Count;
+
+	[HideInInspector] 
+	public bool HasGhostTimes { get; private set; } = false;
 
 	[HideInInspector] 
 	public bool PassedLastCheckpoint { get; set; } = false;
-
 	private void Start() {
 
 		ElapsedTime = 0f;
@@ -62,8 +67,8 @@ public class CheckpointManager : MonoBehaviourSingleton<CheckpointManager> {
 		var path = $"{Application.persistentDataPath}/ghosts/ghost.ghost";
 		if (File.Exists(path)) {
 			CheckpointLogger.Instance.GhostLoadFromFile(path);
+			HasGhostTimes = true;
 		}
-
 	}
 
 	private void Update() {
@@ -89,8 +94,13 @@ public class CheckpointManager : MonoBehaviourSingleton<CheckpointManager> {
 			    && hitCheckpoints.Count == CheckpointLogger.Instance.GetNumCheckpoints()) {
 				PassedLastCheckpoint = true;
 
-				var path = $"{Application.persistentDataPath}/ghosts/ghost.ghost";
-				CheckpointLogger.Instance.GhostSaveToFile(path);
+				float totalTime      = CheckpointLogger.Instance.GetTotalTime();
+				float ghostTotalTime = CheckpointLogger.Instance.GhostGetTotalTime();
+
+				if (!HasGhostTimes || totalTime < ghostTotalTime) {
+					var path = $"{Application.persistentDataPath}/ghosts/ghost.ghost";
+					CheckpointLogger.Instance.GhostSaveToFile(path);
+				}
 			}
 		}
 	}
