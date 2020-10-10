@@ -60,6 +60,6 @@ public class PauseMenuController : MonoBehaviour {
 		Time.timeScale = a_state ? 0f : 1f;
 
 		Cursor.lockState = a_state ? CursorLockMode.None : CursorLockMode.Locked;
-		Cursor.visible = !a_state;
+		Cursor.visible = a_state;
 	}
 }

@@ -1,8 +1,6 @@
 #include "CheckpointGhost.h"
 #include "CheckpointTimeLogger.h"
 
-#include <io.h>
-
 #include <chrono>
 #include <fstream>
 #include <memory>
@@ -39,6 +37,8 @@ CheckpointLogger_GhostLoadFromPath(
 	if (!fin) {
 		return;
 	}
+
+	g_ghostTotalRunningTime = 0;
 	
 	fin.read(buf, BUFFER_SZ);
 

@@ -308,7 +308,7 @@ MonoBehaviour:
   maxDecel: 100
   jumpForce: 12
   gravityScale: 3
-  mouseSens: 300
+  mouseSens: 5
 --- !u!136 &1576516383934481336
 CapsuleCollider:
   m_ObjectHideFlags: 0

@@ -97,6 +97,10 @@ namespace INFR3110 {
 			GhostGetCheckpoint = m_dynamicLibrary.GetDelegate<GhostGetCheckpointDelegate>(GHOST_GET_CHECKPOINT_SYMBOL);
 			GhostGetNumCheckpoints =
 				m_dynamicLibrary.GetDelegate<GhostGetNumCheckpointsDelegate>             (GHOST_GET_NUM_CHECKPOINTS_SYMBOL);
+
+			transform.parent = null;
+			
+			DontDestroyOnLoad(this);
 		}
 
 		private void OnDestroy() {

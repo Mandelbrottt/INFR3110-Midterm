@@ -26,8 +26,9 @@ public class CheckpointManager : MonoBehaviourSingleton<CheckpointManager> {
 
 	[HideInInspector] 
 	public bool PassedLastCheckpoint { get; set; } = false;
-	private void Start() {
 
+	private void Start() {
+		
 		ElapsedTime = 0f;
 		TimeSinceLastCheckpoint = 0f;
 

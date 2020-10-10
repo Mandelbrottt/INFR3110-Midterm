@@ -72,8 +72,8 @@ public class CharacterController : MonoBehaviour {
 		m_body.AddForce(new Vector3(0, jumpAmt, 0), ForceMode.Impulse);
 		m_body.AddForce(Physics.gravity * (gravityScale - 1), ForceMode.Acceleration);
 
-		var deltaYaw   = Input.GetAxisRaw("Mouse X") * mouseSens * Time.deltaTime;
-		var deltaPitch = Input.GetAxisRaw("Mouse Y") * mouseSens * Time.deltaTime;
+		var deltaYaw   = Input.GetAxisRaw("Mouse X") * mouseSens;
+		var deltaPitch = Input.GetAxisRaw("Mouse Y") * mouseSens;
 
 		m_yaw += deltaYaw;
 

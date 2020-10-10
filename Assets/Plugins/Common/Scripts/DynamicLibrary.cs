@@ -63,6 +63,7 @@ namespace INFR3110 {
 			return UnityEditor.AssetDatabase.GUIDToAssetPath(guid);
 		#else
 			string path = $"{UnityEngine.Application.productName}_Data/Plugins/x86_64/{a_object.name}";
+			return path;
 		#endif
 		}
 	}
