@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.IO;
 using INFR3110;
 using UnityEngine;
 
@@ -11,16 +12,19 @@ public class CheckpointManager : MonoBehaviourSingleton<CheckpointManager> {
 	[SerializeField]
 	private List<GameObject> checkpointsInLevel = new List<GameObject>();
 
-	private float m_timeSinceLastCheckpoint;
-	private float m_elapsedTime;
+	[HideInInspector] 
+	public float TimeSinceLastCheckpoint { get; private set; }
+
+	[HideInInspector]
+	public float ElapsedTime { get; private set; }
 
 	[HideInInspector] 
 	public bool PassedLastCheckpoint { get; set; } = false;
 
 	private void Start() {
 
-		m_elapsedTime = 0f;
-		m_timeSinceLastCheckpoint = 0f;
+		ElapsedTime = 0f;
+		TimeSinceLastCheckpoint = 0f;
 
 		var numValidCheckpoints = 0;
 
@@ -53,32 +57,40 @@ public class CheckpointManager : MonoBehaviourSingleton<CheckpointManager> {
 
 		CheckpointLogger.Instance.SetCheckpoints(checkpoints, checkpoints.Length);
 
-		CheckpointLogger.Instance.StartRun();
+		CheckpointLogger.Instance.ResetRun();
+		
+		var path = $"{Application.persistentDataPath}/ghosts/ghost.ghost";
+		if (File.Exists(path)) {
+			CheckpointLogger.Instance.GhostLoadFromFile(path);
+		}
+
 	}
 
 	private void Update() {
-		m_timeSinceLastCheckpoint += Time.deltaTime;
-		m_elapsedTime += Time.deltaTime;
+		if (!PassedLastCheckpoint) {
+			TimeSinceLastCheckpoint += Time.deltaTime;
+			ElapsedTime             += Time.deltaTime;
+		}
 	}
 
 	public void TryTriggerCheckpoint(GameObject a_checkpoint) {
 		int instanceId = a_checkpoint.GetInstanceID();
 
 		if (!hitCheckpoints.Contains(instanceId)) {
-			CheckpointLogger.Instance.SaveCheckpointTime(m_timeSinceLastCheckpoint);
+			CheckpointLogger.Instance.SaveCheckpointTime(TimeSinceLastCheckpoint);
 
 			hitCheckpoints.Add(instanceId);
 			
-			m_timeSinceLastCheckpoint = 0f;
+			TimeSinceLastCheckpoint = 0f;
 
 			SpawnManager.Instance.SetSpawn(a_checkpoint.transform);
 			
-			Debug.Log("Checkpoint hit!");
-
-			if (hitCheckpoints.Count == CheckpointLogger.Instance.GetNumCheckpoints()) {
-				CheckpointLogger.Instance.EndRun();
-
+			if (!PassedLastCheckpoint 
+			    && hitCheckpoints.Count == CheckpointLogger.Instance.GetNumCheckpoints()) {
 				PassedLastCheckpoint = true;
+
+				var path = $"{Application.persistentDataPath}/ghosts/ghost.ghost";
+				CheckpointLogger.Instance.GhostSaveToFile(path);
 			}
 		}
 	}

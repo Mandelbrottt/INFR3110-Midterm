@@ -21,9 +21,11 @@
   <ItemGroup>
     <ClInclude Include="include\IUnityInterface.h" />
     <ClInclude Include="src\Checkpoint\Checkpoint.h" />
+    <ClInclude Include="src\Checkpoint\CheckpointGhost.h" />
     <ClInclude Include="src\Checkpoint\CheckpointTimeLogger.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\Checkpoint\CheckpointGhost.cpp" />
     <ClCompile Include="src\Checkpoint\CheckpointTimeLogger.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">

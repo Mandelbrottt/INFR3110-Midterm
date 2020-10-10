@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿using System.Runtime.InteropServices;
+using INFR3110;
+using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class SpawnManager : MonoBehaviourSingleton<SpawnManager> {
@@ -22,11 +24,10 @@ public class SpawnManager : MonoBehaviourSingleton<SpawnManager> {
 
 			if (!CheckpointManager.Instance.PassedLastCheckpoint)
 				Respawn();
-			else {
-				if (character.transform.position.y < deathPlaneHeight * 5) {
-					SceneManager.LoadScene("EndScene");
-				}
+			else if (character.transform.position.y < deathPlaneHeight * 5) {
+				SceneManager.LoadScene("EndScene");
 			}
+
 		}
 	}
 

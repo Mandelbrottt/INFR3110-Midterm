@@ -4,6 +4,17 @@
 
 #include "Checkpoint.h"
 
+#include <memory>
+#include <string>
+
+extern std::shared_ptr<Checkpoint[]> g_checkpoints;
+extern std::shared_ptr<std::wstring[]> g_checkpointNames;
+
+extern int g_currentIndex;
+extern int g_numCheckpoints;
+
+extern float g_totalRunningTime;
+
 #ifdef __cplusplus
 extern "C" {
 #endif
@@ -15,10 +26,7 @@ extern "C" {
 	);
 
 	extern void UNITY_INTERFACE_EXPORT UNITY_INTERFACE_API
-	CheckpointLogger_StartRun();
-
-	extern void UNITY_INTERFACE_EXPORT UNITY_INTERFACE_API
-	CheckpointLogger_EndRun();
+	CheckpointLogger_ResetRun();
 
 	extern void UNITY_INTERFACE_EXPORT UNITY_INTERFACE_API
 	CheckpointLogger_SaveCheckpointTime(

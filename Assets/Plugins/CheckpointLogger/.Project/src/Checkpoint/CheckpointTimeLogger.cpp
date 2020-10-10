@@ -4,22 +4,28 @@
 #include <memory>
 #include <string>
 
-static std::shared_ptr<Checkpoint[]>   g_checkpoints;
-static std::shared_ptr<std::wstring[]> g_checkpointNames;
+std::shared_ptr<Checkpoint[]>   g_checkpoints     = nullptr;
+std::shared_ptr<std::wstring[]> g_checkpointNames = nullptr;
 
-static int g_currentIndex   = 0;
-static int g_numCheckpoints = 0;
+int g_currentIndex   = 0;
+int g_numCheckpoints = 0;
 
-static float g_totalRunningTime = 0.0f;
+float g_totalRunningTime = 0.0f;
 
-void UNITY_INTERFACE_API 
+void UNITY_INTERFACE_API
 CheckpointLogger_SetCheckpoints(
 	Checkpoint a_checkpoints[],
 	int        a_length
 ) {
+
+	g_numCheckpoints = a_length;
+
+	g_currentIndex     = 0;
+	g_totalRunningTime = 0;
+
 	if (a_length <= 0)
 		return;
-	
+
 	g_checkpoints = std::shared_ptr<Checkpoint[]>(new Checkpoint[a_length]);
 
 	g_checkpointNames = std::shared_ptr<std::wstring[]>(new std::wstring[a_length]);
@@ -32,24 +38,12 @@ CheckpointLogger_SetCheckpoints(
 		g_checkpoints[i].name = g_checkpointNames[i].c_str();
 	}
 
-	g_numCheckpoints = a_length;
-	
-	g_currentIndex = 0;
-	g_totalRunningTime = 0;
 }
 
 void UNITY_INTERFACE_API
-CheckpointLogger_StartRun() {
-	if (g_currentIndex != 0)
-		CheckpointLogger_EndRun();
-	
+CheckpointLogger_ResetRun() {
 	g_currentIndex     = 0;
 	g_totalRunningTime = 0.0f;
-}
-
-void UNITY_INTERFACE_API
-CheckpointLogger_EndRun() {
-	// TODO: Implement saving
 }
 
 void UNITY_INTERFACE_API

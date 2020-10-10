@@ -24,9 +24,15 @@
     <ClInclude Include="src\Checkpoint\Checkpoint.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\Checkpoint\CheckpointGhost.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Checkpoint\CheckpointTimeLogger.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Checkpoint\CheckpointGhost.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
